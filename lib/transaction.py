@@ -467,9 +467,8 @@ def push_script(x):
 def get_scriptPubKey(addr):
     addrtype, hash_160 = bc_address_to_hash_160(addr)
     if addrtype == bitcoin.ADDRTYPE_P2PKH:
-        script = '76a9'                                      # op_dup, op_hash_160
+        script = '00'                                       # witness v0
         script += push_script(hash_160.encode('hex'))
-        script += '88ac'                                     # op_equalverify, op_checksig
     elif addrtype == bitcoin.ADDRTYPE_P2SH:
         script = 'a9'                                        # op_hash_160
         script += push_script(hash_160.encode('hex'))
