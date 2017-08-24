@@ -664,7 +664,11 @@ class Transaction:
     def get_preimage_script(self, txin):
         # only for non-segwit
         if txin['type'] == 'p2pkh':
-            return get_scriptPubKey(txin['address'])
+            addrtype, hash_160 = bc_address_to_hash_160(txin['address'])
+            script = '76a9'                                      # op_dup, op_hash_160
+            script += push_script(hash_160.encode('hex'))
+            script += '88ac'                                     # op_equalverify, op_checksig
+            return script
         elif txin['type'] == 'p2sh':
             pubkeys, x_pubkeys = self.get_sorted_pubkeys(txin)
             return multisig_script(pubkeys, txin['num_sig'])
